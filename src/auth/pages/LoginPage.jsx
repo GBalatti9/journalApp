@@ -8,7 +8,7 @@ export const LoginPage = () => {
     return (
 
 
-        <AuthLayout title='Register' >
+        <AuthLayout title='Login' >
             <form>
                 <Grid container>
                     <Grid item xs={12} sx={{ mt: 2 }}>
