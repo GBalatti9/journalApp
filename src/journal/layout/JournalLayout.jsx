@@ -6,7 +6,7 @@ const drawerWitdh = 240;
 export const JournalLayout = ({ children }) => {
     return (
         <Box sx={{ display: 'flex' }}>
-            <Navbar />
+            <Navbar drawerWitdh = { drawerWitdh }/>
 
             {/* Sidebar */}
 
