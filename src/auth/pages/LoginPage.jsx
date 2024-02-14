@@ -1,13 +1,14 @@
+import { useDispatch } from 'react-redux';
 import { Google } from "@mui/icons-material"
 import { Button, Grid, TextField, Typography, Link } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom"
 import { AuthLayout } from "../layout/AuthLayout"
 import { useForm } from "../../hooks"
-
+import { checkingAuthentication } from '../../store/auth'
 
 export const LoginPage = () => {
 
-
+    const dispatch = useDispatch();
     const { email, password, onInputChange } = useForm({
         email: 'gas.balatti@gmail.com',
         password: '123456'
@@ -16,8 +17,8 @@ export const LoginPage = () => {
     const handleSubmit = ( e ) => {
         e.preventDefault();
 
-        console.log({ email, password });
-
+        // console.log({ email, password });
+        dispatch( checkingAuthentication(email, password) )
     }
 
     const handleGoogleSignIn = () => {
