@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography, Link } from "@mui/material"
 import { Link as RouterLink } from "react-router-dom"
 import { AuthLayout } from "../layout/AuthLayout"
 import { useForm } from "../../hooks"
-import { checkingAuthentication } from '../../store/auth'
+import { checkingAuthentication, startGoogleSignIn } from '../../store/auth'
 
 export const LoginPage = () => {
 
@@ -22,6 +22,7 @@ export const LoginPage = () => {
     }
 
     const handleGoogleSignIn = () => {
+        dispatch( startGoogleSignIn() );
         console.log('handle google singn in');
     }
 
