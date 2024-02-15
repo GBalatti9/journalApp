@@ -13,7 +13,6 @@ export const CheckingAuth = ({ children, title = '' }) => {
             >
 
             <Grid item
-                direction="row"
                 justifyContent="center"
                 >
                     
