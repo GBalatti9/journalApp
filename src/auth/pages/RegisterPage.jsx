@@ -1,22 +1,42 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Grid, TextField, Typography, Link } from "@mui/material";
 
 import { Link as RouterLink } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks/useForm";
+import { startCreatingUserWithEmailPassword } from "../../store/auth";
 
 const formData = {
-    email: 'gas.balatti@gmail.com',
-    password: '123456',
-    displayName: 'Gaston Balatti',
+    email: '',
+    password: '',
+    displayName: '',
+}
+
+const formValidations = {
+    email       : [ ( value ) => value.includes('@') , 'El email debe tener un @' ],
+    password    : [ ( value ) => value.length >= 6 , 'La contraseña debe tener al menos seis caracteres' ],
+    displayName : [ ( value ) => value.length >= 1 , 'El nombre es obligatorio' ],
 }
 
 export const RegisterPage = () => {
 
-    const { displayName, email, password, onInputChange, formState } = useForm( formData );
+    const dispatch = useDispatch();
+
+    const [ formSubmitted, setFormSubmitted ] = useState(false);
+
+    const { formState, displayName, email, password, onInputChange, 
+            isFormValid, displayNameValid, emailValid, passwordValid 
+        } = useForm( formData, formValidations );
+
+        // console.log(isFormValid);
 
     const handleSubmit = ( e ) => {
         e.preventDefault();
-        console.log(formState);
+        setFormSubmitted( true );
+        if (!isFormValid) return;
+
+        dispatch(startCreatingUserWithEmailPassword( formState ))
     }
 
     return (
@@ -26,37 +46,43 @@ export const RegisterPage = () => {
                 <Grid container>
                 <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
-                            label='Nombre completo'
-                            type="text"
-                            placeholder="John Doe"
+                            label       = 'Nombre completo'
+                            type        = "text"
+                            placeholder = "John Doe"
                             fullWidth 
-                            name="displayName"
-                            value={ displayName }
-                            onChange={ onInputChange }
+                            name        = "displayName"
+                            value       = { displayName }
+                            onChange    = { onInputChange }
+                            error       = { !!displayNameValid && formSubmitted }
+                            helperText  = { displayNameValid }
                             />
                     </Grid>
 
                     <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
-                            label='Email'
-                            type="email"
-                            placeholder="mail@gmail.com"
+                            label       = 'Email'
+                            type        = "email"
+                            placeholder = "mail@gmail.com"
                             fullWidth 
-                            name="email"
-                            value={ email }
-                            onChange={ onInputChange }
+                            name        = "email"
+                            value       = { email }
+                            onChange    = { onInputChange }
+                            error       = { !!emailValid && formSubmitted }
+                            helperText  = { emailValid }
                             />
                     </Grid>
 
                     <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
-                            label='Contraseña'
-                            type="password"
-                            placeholder="Contraseña"
+                            label       = 'Contraseña'
+                            type        = "password"
+                            placeholder = "Contraseña"
                             fullWidth 
-                            name="password"
-                            value={ password }
-                            onChange={ onInputChange }
+                            name        = "password"
+                            value       = { password }
+                            onChange    = { onInputChange }
+                            error       = { !!passwordValid && formSubmitted }
+                            helperText  = { passwordValid }
                             />
                     </Grid>
 
