@@ -10,7 +10,7 @@ import { startNewNorte } from "../../store/journal";
 
 export const JournalPage = () => {
 
-    const { isSaving } = useSelector(( state ) => state.journal );
+    const { isSaving, active } = useSelector(( state ) => state.journal );
     const dispatch = useDispatch();
 
     const handleClickNewNote = () => {
@@ -19,9 +19,11 @@ export const JournalPage = () => {
 
     return (
         <JournalLayout>
-            {/* <NothingSelectedView /> */}
-
-            <NoteView />
+            {
+                (!!active)
+                ? <NoteView />
+                : <NothingSelectedView />
+            }
 
             <IconButton
                 onClick={ handleClickNewNote }
