@@ -1,9 +1,14 @@
 import { SaveOutlined } from "@mui/icons-material"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import { ImageGallery } from "../components"
+import { useSelector } from "react-redux"
 
 
 export const NoteView = () => {
+
+    const { active } = useSelector( state => state.journal );
+    console.log(active);
+
     return (
         <Grid container direction='row' justifyContent='space-between' sx={{ mb: 1 }} >
 
@@ -24,6 +29,7 @@ export const NoteView = () => {
                     variant="filled"
                     placeholder="Ingrese un titulo"
                     label="Título"
+                    value={ active.title }
                     fullWidth
                     sx={{ border: 'none', mb: 1 }}
                 />
@@ -31,6 +37,7 @@ export const NoteView = () => {
                     type="text"
                     variant="filled"
                     placeholder="¿Qué sucedió hoy?"
+                    value={ active.body }
                     fullWidth
                     multiline
                     sx={{ border: 'none', mb: 1 }}
