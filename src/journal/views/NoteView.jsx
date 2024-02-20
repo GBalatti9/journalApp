@@ -1,10 +1,10 @@
-import { SaveOutlined } from "@mui/icons-material"
-import { Button, Grid, TextField, Typography } from "@mui/material"
+import { SaveOutlined, UploadOutlined } from "@mui/icons-material"
+import { Button, Grid, IconButton, TextField, Typography } from "@mui/material"
 import { ImageGallery } from "../components"
 import { useSelector, useDispatch } from "react-redux"
 import { useForm } from "../../hooks/useForm"
-import { useMemo, useEffect } from "react"
-import { setActiveNote } from "../../store/journal";
+import { useMemo, useEffect, useRef } from "react"
+import { setActiveNote, startUploadingFiles } from "../../store/journal";
 import { startSavingNote } from '../../store/journal';
 import Swal from "sweetalert2";
 import 'sweetalert2/dist/sweetalert2.css';
@@ -15,6 +15,7 @@ export const NoteView = () => {
     const dispatch = useDispatch();
     const { active: note, messageSaved, isSaving } = useSelector( state => state.journal );
     const { body, title, date, formState, onInputChange } = useForm( note );
+    const fileInputRef = useRef();
 
     const dateString = useMemo(() => {
         const newDate = new Date( date );
@@ -29,6 +30,11 @@ export const NoteView = () => {
         dispatch( startSavingNote() );
     }
 
+    const handleFileInputChange = ({ target }) => {
+        if (target.files === 0) return;
+        
+        dispatch( startUploadingFiles( target.files ) )
+    }
     useEffect(() => {
 
         if (messageSaved.length > 0) {
@@ -45,7 +51,13 @@ export const NoteView = () => {
                 <Typography fontSize={ 39 } fontWeight='light'>{ dateString }</Typography>
             </Grid>
             
+            
+            
             <Grid item>
+                <input type="file" multiple onChange={(e) => handleFileInputChange(e) } style={{ display: 'none' }} ref={ fileInputRef }/>
+                <IconButton onClick={ () => fileInputRef.current.click() }>
+                    <UploadOutlined /> 
+                </IconButton>
                 <Button color="primary" sx={{ p: 2 }} onClick={ handleSaveNote } disabled={ isSaving }>
                     <SaveOutlined sx={{ fontSize: 30, mr: 1 }}/>
                     Guardar
