@@ -1,5 +1,6 @@
 export const fileUpload = async( file ) => {
-    if( !file ) throw new Error('No hay archivo');
+    // if( !file ) throw new Error('No hay archivo');
+    if( !file ) return null;
     const cloudURL = 'https://api.cloudinary.com/v1_1/dsadgfahr/upload';
 
     const formData = new FormData();
@@ -20,6 +21,7 @@ export const fileUpload = async( file ) => {
         
         return cloudResponse.secure_url;
     } catch (error) {
-        throw new Error( error );
+        // throw new Error( error );
+        return null;
     }
 }
